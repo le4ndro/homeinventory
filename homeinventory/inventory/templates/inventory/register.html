@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% load widget_tweaks %}
+
+{% block title %}Create an account{% endblock %}
+
+{% block content %}
+
+  <h1>Create an account</h1>
+  <div style="width:40%">
+    <p>Please, sign up using the following form:</p>
+    <form action="" method="post">
+      {% csrf_token %}
+      <!--{{ user_form.as_p }} Rendering manualy in order to apply css class -->
+      {% for field in user_form %}
+          <div class="form-group">
+              {{ field.errors }}
+              {{ field.label_tag }} {{ field|add_class:"form-control" }}
+              {% if field.help_text %}
+              <p class="help">{{ field.help_text|safe }}</p>
+              {% endif %}
+          </div>
+      {% endfor %}
+      <input type="submit" name="" value="Create my account" class="btn btn-primary">
+    </form>
+  </div>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}Locations{% endblock %}
+
+{% block content %}
+
+    <h1>Locations</h1>
+
+    <a href="{% url 'location-create' %}" class="btn btn-primary">New</a>
+    <br><br>
+
+    <table class="table table-bordered">
+      <thead>
+        <th>Name</th>
+        <th>Description</th>
+        <th></th>
+      </thead>
+      <tbody>
+        {% for location in location_list %}
+          <tr>
+            <td>{{ location.name }}</td>
+            <td>{{ location.description }}</td>
+            <td>
+              <a href="{% url 'location-detail' pk=location.id %}" class="btn btn-primary">Details</a>
+              <a href="{% url 'location-update' pk=location.id %}" class="btn btn-primary">Update</a>
+              <a href="{% url 'location-delete' pk=location.id %}" class="btn btn-primary">Delete</a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+{% endblock %}

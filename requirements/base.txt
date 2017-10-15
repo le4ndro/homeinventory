@@ -1,0 +1,15 @@
+# Bleeding edge Django
+Django==1.11.6
+
+# Time zones support
+pytz==2017.2
+
+# Configuration
+django-environ==0.4.4
+whitenoise==3.3.1
+
+#Forms
+django-widget-tweaks==1.4.1
+
+# Python-PostgreSQL Database Adapter
+psycopg2==2.7.3.1
