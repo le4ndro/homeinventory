@@ -5,7 +5,20 @@ from django.db import models
 def get_sentinel_user():
     return get_user_model().objects.get_or_create(username='deleted')[0]
 
-class Category(models.Model):
+class TimeStampedModel(models.Model):
+    """
+    An abstract base class model that provides self-updating
+    created and modified fields.
+    """
+
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        abstract = True
+
+
+class Category(TimeStampedModel):
     name = models.CharField(max_length=100)
     description = models.CharField(max_length=500)
     user = models.ForeignKey(
@@ -18,7 +31,7 @@ class Category(models.Model):
         return self.name
 
 
-class Location(models.Model):
+class Location(TimeStampedModel):
     name = models.CharField(max_length=100)
     description = models.CharField(max_length=500)
     user = models.ForeignKey(
@@ -30,7 +43,7 @@ class Location(models.Model):
     def __str__(self):
         return self.name
 
-class Item(models.Model):
+class Item(TimeStampedModel):
     name = models.CharField(max_length=100)
     description = models.CharField(max_length=500)
     attributes = models.CharField(max_length=500)
