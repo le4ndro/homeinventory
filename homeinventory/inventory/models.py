@@ -44,13 +44,31 @@ class Location(TimeStampedModel):
         return self.name
 
 class Item(TimeStampedModel):
-    name = models.CharField(max_length=100)
+    WARRANTY_CHOICES = (
+        ('001', 'original manufacturer warranty'),
+        ('002', 'insurance warranty underwritten and regulated as insurance'),
+        ('003', 'lifetime warranty'),
+        ('004', 'satisfaction guarantee'),
+        ('005', 'implied warranty'),
+        ('006', 'other'),
+    )
+    #name = models.CharField(max_length=100)
+    make = models.CharField(max_length=255, null=True)
+    model = models.CharField(max_length=255)
+    id_number = models.CharField(max_length=255, null=True)
+    purchased_from = models.CharField(max_length=255, null=True)
+    purchased_date = models.DateTimeField(null=True)
+    quantity = models.IntegerField(null=True)
+    value = models.DecimalField(max_digits=9, decimal_places=2, null=True)
+    estimated_current_value = models.DecimalField(max_digits=9, decimal_places=2, null=True)
     description = models.CharField(max_length=500)
-    attributes = models.CharField(max_length=500)
-    notes = models.CharField(max_length=500)
-    year = models.IntegerField()
+    attributes = models.CharField(max_length=500, null=True)
+    notes = models.CharField(max_length=500, null=True)
+    year = models.IntegerField(null=True)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
     location = models.ForeignKey(Location, on_delete=models.SET_NULL, null=True)
+    warranty = models.BooleanField(default=False)
+    warranty_type = models.CharField(max_length=3, choices=WARRANTY_CHOICES, null=True)
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.SET(get_sentinel_user),
@@ -58,4 +76,4 @@ class Item(TimeStampedModel):
     )
 
     def __str__(self):
-        return self.name
+        return self.model
