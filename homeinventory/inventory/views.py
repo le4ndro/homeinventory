@@ -4,7 +4,7 @@ from django.urls import reverse_lazy
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from .models import Location
+from .models import Location, Category
 
 from .forms import UserRegistrationForm
 
@@ -45,3 +45,30 @@ class LocationUpdate(LoginRequiredMixin, UpdateView):
 class LocationDelete(LoginRequiredMixin, DeleteView):
     model = Location
     success_url = reverse_lazy('location-list')
+
+
+class CategoryList(LoginRequiredMixin, ListView):
+    model = Category
+    def get_queryset(self):
+        return Category.objects.filter(user=self.request.user)
+
+class CategoryDetail(LoginRequiredMixin, DetailView):
+    model = Category
+
+class CategoryCreate(LoginRequiredMixin, CreateView):
+    model = Category
+    fields = ['name', 'description']
+    success_url = reverse_lazy('category-list')
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super(CategoryCreate, self).form_valid(form)
+
+class CategoryUpdate(LoginRequiredMixin, UpdateView):
+    model = Category
+    fields = ['name', 'description']
+    success_url = reverse_lazy('category-list')
+
+class CategoryDelete(LoginRequiredMixin, DeleteView):
+    model = Category
+    success_url = reverse_lazy('category-list')

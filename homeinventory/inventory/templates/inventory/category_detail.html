@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}Details - {{ category.name }}{% endblock %}
+
+{% block content %}
+  <h1>{{ category.name }}</h1>
+  <p>
+    <b>Description:</b> {{ category.description }}
+  </p>
+
+  <a href="{% url 'category-list' %}" class="btn btn-primary">Back to list</a>
+{% endblock %}

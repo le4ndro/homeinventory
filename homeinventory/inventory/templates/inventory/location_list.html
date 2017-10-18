@@ -18,12 +18,12 @@
       <tbody>
         {% for location in location_list %}
           <tr>
-            <td>{{ location.name }}</td>
+            <td style="width:30%">{{ location.name }}</td>
             <td>{{ location.description }}</td>
-            <td>
+            <td style="width:25%">
               <a href="{% url 'location-detail' pk=location.id %}" class="btn btn-primary">Details</a>
               <a href="{% url 'location-update' pk=location.id %}" class="btn btn-primary">Update</a>
-              <a href="{% url 'location-delete' pk=location.id %}" class="btn btn-primary">Delete</a>
+              <a href="{% url 'location-delete' pk=location.id %}" class="btn btn-danger">Delete</a>
             </td>
           </tr>
         {% endfor %}

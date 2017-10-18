@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 
-{% block title %}Delete - {{ location.name }}{% endblock %}
+{% block title %}Delete - {{ category.name }}{% endblock %}
 
 {% block content %}
 <div class="contentHandler">
   <h1>Delete Location</h1>
 
-  <p>Are you sure you want to delete the location: {{ location }}?</p>
+  <p>Are you sure you want to delete the category: {{ category }}?</p>
 
   <form action="" method="POST">
     {% csrf_token %}
