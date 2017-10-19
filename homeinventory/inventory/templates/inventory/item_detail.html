@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Details - {{ item.make }} / {{item.model}} {% endblock %}
+
+{% block content %}
+  <h1>{{ item.make }} / {{item.model}}</h1>
+  <p>
+    <b>Id number:</b> {{ item.id_number }}<br>
+    <b>Purchased from:</b> {{ item.purchased_from }}<br>
+    <b>Purchased date:</b> {{ item.purchased_date }}<br>
+    <b>Quantity:</b> {{ item.quantity }}<br>
+    <b>Value:</b> {{ item.value }}<br>
+    <b>Estimated current value:</b> {{ item.estimated_current_value }}<br>
+    <b>Description:</b> {{ item.description }}<br>
+    <b>Attributes:</b> {{ item.attributes }}<br>
+    <b>Year:</b> {{ item.year }}<br>
+    <b>Category:</b> {{ item.category }}<br>
+    <b>Location:</b> {{ item.location }}<br>
+    <b>Warranty:</b> {{ item.warranty }}<br>
+    <b>Warranty type:</b> {{ item.warranty_type }}<br>
+    <b>Warranty expiration:</b> {{ item.warranty_expiration }}<br>
+    <b>Warranty contact info:</b> {{ item.warranty_contact_info }}<br>
+  </p>
+
+  <a href="{% url 'item-list' %}" class="btn btn-primary">Back to list</a>
+{% endblock %}

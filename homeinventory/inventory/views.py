@@ -4,7 +4,7 @@ from django.urls import reverse_lazy
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from .models import Location, Category
+from .models import Location, Category, Item
 
 from .forms import UserRegistrationForm
 
@@ -19,6 +19,7 @@ def register(request):
     else:
         user_form = UserRegistrationForm()
         return render(request, 'inventory/register.html', {'user_form': user_form})
+
 
 class LocationList(LoginRequiredMixin, ListView):
     model = Location
@@ -72,3 +73,68 @@ class CategoryUpdate(LoginRequiredMixin, UpdateView):
 class CategoryDelete(LoginRequiredMixin, DeleteView):
     model = Category
     success_url = reverse_lazy('category-list')
+
+
+class ItemList(LoginRequiredMixin, ListView):
+    model = Item
+    def get_queryset(self):
+        return Item.objects.filter(user=self.request.user)
+
+class ItemDetail(LoginRequiredMixin, DetailView):
+    model = Item
+
+class ItemCreate(LoginRequiredMixin, CreateView):
+    model = Item
+    fields = [
+                'make',
+                'model',
+                'id_number',
+                'purchased_from',
+                'purchased_date',
+                'quantity',
+                'value',
+                'estimated_current_value',
+                'description',
+                'attributes',
+                'notes',
+                'year',
+                'category',
+                'location',
+                'warranty',
+                'warranty_type',
+                'warranty_expiration',
+                'warranty_contact_info'
+             ]
+    success_url = reverse_lazy('item-list')
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super(ItemCreate, self).form_valid(form)
+
+class ItemUpdate(LoginRequiredMixin, UpdateView):
+    model = Item
+    fields = [
+                'make',
+                'model',
+                'id_number',
+                'purchased_from',
+                'purchased_date',
+                'quantity',
+                'value',
+                'estimated_current_value',
+                'description',
+                'attributes',
+                'notes',
+                'year',
+                'category',
+                'location',
+                'warranty',
+                'warranty_type',
+                'warranty_expiration',
+                'warranty_contact_info'
+             ]
+    success_url = reverse_lazy('item-list')
+
+class ItemDelete(LoginRequiredMixin, DeleteView):
+    model = Category
+    success_url = reverse_lazy('item-list')

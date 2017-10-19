@@ -69,6 +69,8 @@ class Item(TimeStampedModel):
     location = models.ForeignKey(Location, on_delete=models.SET_NULL, null=True)
     warranty = models.BooleanField(default=False)
     warranty_type = models.CharField(max_length=3, choices=WARRANTY_CHOICES, null=True)
+    warranty_expiration = models.DateTimeField(null=True)
+    warranty_contact_info = models.CharField(max_length=1000, null=True)
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.SET(get_sentinel_user),

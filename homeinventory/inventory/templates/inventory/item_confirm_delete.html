@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Delete - {{ item.make }} / {{ item.model }}{% endblock %}
+
+{% block content %}
+<div class="contentHandler">
+  <h1>Delete Item</h1>
+
+  <p>Are you sure you want to delete the item: {{ item }}?</p>
+
+  <form action="" method="POST">
+    {% csrf_token %}
+    <input type="submit" action="" value="Yes, delete." class="btn btn-primary"/>
+  </form>
+</div>
+{% endblock %}
