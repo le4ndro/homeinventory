@@ -49,7 +49,15 @@ class LocationList(LoginRequiredMixin, ListView):
     paginate_by = 5
 
     def get_queryset(self):
-        return Location.objects.filter(user=self.request.user)
+        queryset = super(LocationList, self).get_queryset()
+        queryset = queryset.filter(user=self.request.user)
+
+        q = self.request.GET.get("q")
+
+        if q:
+            return queryset.filter(name__icontains=q)
+
+        return queryset
 
 class LocationDetail(LoginRequiredMixin, DetailView):
     model = Location
@@ -86,7 +94,15 @@ class CategoryList(LoginRequiredMixin, ListView):
     paginate_by = 5
 
     def get_queryset(self):
-        return Category.objects.filter(user=self.request.user)
+        queryset = super(CategoryList, self).get_queryset()
+        queryset = queryset.filter(user=self.request.user)
+
+        q = self.request.GET.get("q")
+
+        if q:
+            return queryset.filter(name__icontains=q)
+
+        return queryset
 
 class CategoryDetail(LoginRequiredMixin, DetailView):
     model = Category

@@ -6,10 +6,17 @@
 
     <h1>Locations</h1>
 
+    <br>
     {% include "shared/_action_confirmation.html" %}
 
-    <a href="{% url 'location-create' %}" class="btn btn-primary">New</a>
-    <br><br>
+
+    {% include "shared/_simple_search_form.html" %}
+
+    <p>
+      <a href="{% url 'location-create' %}" class="btn btn-primary">New</a>
+    </p>
+
+
 
     <table class="table table-bordered">
       <thead>
