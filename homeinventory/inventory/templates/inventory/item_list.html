@@ -6,6 +6,8 @@
 
     <h1>My things</h1>
 
+    {% include "shared/_action_confirmation.html" %}
+
     <a href="{% url 'item-create' %}" class="btn btn-primary">New</a>
     <br><br>
 
@@ -37,5 +39,7 @@
         {% endfor %}
       </tbody>
     </table>
+
+    {% include "shared/_generic_pagination.html" %}
 
 {% endblock %}

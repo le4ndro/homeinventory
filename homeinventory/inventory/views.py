@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
@@ -7,6 +8,24 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Location, Category, Item
 
 from .forms import UserRegistrationForm
+
+#
+# Shared section
+#
+
+class GenericActionConfirmationMixin:
+
+    @property
+    def success_msg(self):
+        return NotImplemented
+
+    def form_valid(self, form):
+        messages.info(self.request, self.success_msg)
+        return super(GenericActionConfirmationMixin, self).form_valid(form)
+
+#
+# General section
+#
 
 def register(request):
     if request.method == 'POST':
@@ -21,16 +40,24 @@ def register(request):
         return render(request, 'inventory/register.html', {'user_form': user_form})
 
 
+#
+# Location section
+#
+
 class LocationList(LoginRequiredMixin, ListView):
     model = Location
+    paginate_by = 5
+
     def get_queryset(self):
         return Location.objects.filter(user=self.request.user)
 
 class LocationDetail(LoginRequiredMixin, DetailView):
     model = Location
 
-class LocationCreate(LoginRequiredMixin, CreateView):
+class LocationCreate(LoginRequiredMixin, GenericActionConfirmationMixin, CreateView):
     model = Location
+    success_msg = "Location created!"
+
     fields = ['name', 'description']
     success_url = reverse_lazy('location-list')
 
@@ -38,28 +65,37 @@ class LocationCreate(LoginRequiredMixin, CreateView):
         form.instance.user = self.request.user
         return super(LocationCreate, self).form_valid(form)
 
-class LocationUpdate(LoginRequiredMixin, UpdateView):
+class LocationUpdate(LoginRequiredMixin, GenericActionConfirmationMixin, UpdateView):
     model = Location
+    success_msg = "Location updated!"
+
     fields = ['name', 'description']
     success_url = reverse_lazy('location-list')
 
-class LocationDelete(LoginRequiredMixin, DeleteView):
+class LocationDelete(LoginRequiredMixin, GenericActionConfirmationMixin, DeleteView):
     model = Location
     success_url = reverse_lazy('location-list')
+    success_msg = "Location deleted!"
 
+#
+# Category section
+#
 
 class CategoryList(LoginRequiredMixin, ListView):
     model = Category
+    paginate_by = 5
+
     def get_queryset(self):
         return Category.objects.filter(user=self.request.user)
 
 class CategoryDetail(LoginRequiredMixin, DetailView):
     model = Category
 
-class CategoryCreate(LoginRequiredMixin, CreateView):
+class CategoryCreate(LoginRequiredMixin, GenericActionConfirmationMixin, CreateView):
     model = Category
     fields = ['name', 'description']
     success_url = reverse_lazy('category-list')
+    success_msg = "Category created!"
 
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -69,14 +105,21 @@ class CategoryUpdate(LoginRequiredMixin, UpdateView):
     model = Category
     fields = ['name', 'description']
     success_url = reverse_lazy('category-list')
+    success_msg = "Category updated!"
 
-class CategoryDelete(LoginRequiredMixin, DeleteView):
+class CategoryDelete(LoginRequiredMixin, GenericActionConfirmationMixin, DeleteView):
     model = Category
     success_url = reverse_lazy('category-list')
+    success_msg = "Category deleted!"
 
+#
+# Item section
+#
 
 class ItemList(LoginRequiredMixin, ListView):
     model = Item
+    paginate_by = 5
+
     def get_queryset(self):
         return Item.objects.filter(user=self.request.user)
 
@@ -106,6 +149,7 @@ class ItemCreate(LoginRequiredMixin, CreateView):
                 'warranty_contact_info'
              ]
     success_url = reverse_lazy('item-list')
+    success_msg = "Item created!"
 
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -134,7 +178,9 @@ class ItemUpdate(LoginRequiredMixin, UpdateView):
                 'warranty_contact_info'
              ]
     success_url = reverse_lazy('item-list')
+    success_msg = "Item updated!"
 
-class ItemDelete(LoginRequiredMixin, DeleteView):
+class ItemDelete(LoginRequiredMixin, GenericActionConfirmationMixin, DeleteView):
     model = Category
     success_url = reverse_lazy('item-list')
+    success_msg = "Item deleted!"

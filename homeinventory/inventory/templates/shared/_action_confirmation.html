@@ -1,0 +1,9 @@
+{% if messages %}
+  <div class="messages alert alert-success" role="alert">
+    {% for message in messages %}
+    <p  id="message_{{ forloop.counter }}">
+      <b>{{ message }}</b>
+    </p>
+    {% endfor %}
+  </div>
+{% endif %}
