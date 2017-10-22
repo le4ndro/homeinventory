@@ -61,6 +61,7 @@ DJANGO_APPS = [
 ]
 THIRD_PARTY_APPS = [
     'widget_tweaks',
+    'django_filters'
 ]
 LOCAL_APPS = [
     'homeinventory.inventory.apps.InventoryConfig',

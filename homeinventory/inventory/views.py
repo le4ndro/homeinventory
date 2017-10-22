@@ -3,12 +3,15 @@ from django.shortcuts import render
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 
+from django_filters.views import FilterView
+
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Location, Category, Item
 
 from .forms import UserRegistrationForm
 
+from .filters import ItemFilter
 #
 # Shared section
 #
@@ -138,6 +141,14 @@ class ItemList(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         return Item.objects.filter(user=self.request.user)
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super(ItemList, self).get_context_data(**kwargs)
+        
+        item_filter = ItemFilter(self.request.GET, queryset=self.object_list)
+        context['filter'] = item_filter
+        return context
 
 class ItemDetail(LoginRequiredMixin, DetailView):
     model = Item
