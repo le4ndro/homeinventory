@@ -1,6 +1,8 @@
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.db import models
+from django.urls import reverse
+import os
 
 def get_sentinel_user():
     return get_user_model().objects.get_or_create(username='deleted')[0]
@@ -43,6 +45,7 @@ class Location(TimeStampedModel):
     def __str__(self):
         return self.name
 
+
 class Item(TimeStampedModel):
     WARRANTY_CHOICES = (
         ('001', 'original manufacturer warranty'),
@@ -79,3 +82,25 @@ class Item(TimeStampedModel):
 
     def __str__(self):
         return self.model
+
+    def get_absolute_url(self):
+        return reverse('item-detail', kwargs={'pk': self.pk})
+
+
+def user_directory_path(instance, filename):
+    # file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
+    return 'uploads/user_{0}/{1}'.format(instance.user.id, filename)
+
+
+class ItemAttachment(models.Model):
+    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    upload = models.FileField(upload_to=user_directory_path)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET(get_sentinel_user),
+        null=True
+    )
+
+    @property
+    def filename(self):
+        return os.path.basename(self.upload.name)

@@ -1,17 +1,20 @@
 from django.contrib import messages
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.views.generic import FormView
 from django.urls import reverse_lazy
+from django.shortcuts import get_object_or_404
 
 from django_filters.views import FilterView
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from .models import Location, Category, Item
+from .models import Location, Category, Item, ItemAttachment
 
-from .forms import UserRegistrationForm
+from .forms import UserRegistrationForm, ItemAttachmentForm
 
 from .filters import ItemFilter
+
 #
 # Shared section
 #
@@ -145,13 +148,19 @@ class ItemList(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
         context = super(ItemList, self).get_context_data(**kwargs)
-        
+
         item_filter = ItemFilter(self.request.GET, queryset=self.object_list)
         context['filter'] = item_filter
         return context
 
 class ItemDetail(LoginRequiredMixin, DetailView):
     model = Item
+
+    def get_context_data(self, **kwargs):
+        context = super(ItemDetail, self).get_context_data(**kwargs)
+        attachments = ItemAttachment.objects.filter(item=self.get_object())
+        context['attachments'] = attachments
+        return context
 
 class ItemCreate(LoginRequiredMixin, CreateView):
     model = Item
@@ -211,3 +220,28 @@ class ItemDelete(LoginRequiredMixin, GenericActionConfirmationMixin, DeleteView)
     model = Category
     success_url = reverse_lazy('item-list')
     success_msg = "Item deleted!"
+
+class ItemAttachmentView(LoginRequiredMixin, FormView):
+    form_class = ItemAttachmentForm
+    template_name = 'inventory/item_attachment_upload.html'
+    success_url = reverse_lazy('item-detail')
+
+    def get(self, request, *args, **kwargs):
+        item = get_object_or_404(Item,pk=self.kwargs.get('pk'))
+        form = self.form_class(initial={"item_id": item.id})
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        files = request.FILES.getlist('upload')
+        item = get_object_or_404(Item,pk=request.POST.get("item_id", ""))
+        self.success_url = item.get_absolute_url()
+
+        if form.is_valid():
+            for f in files:
+                attachment = ItemAttachment(item=item, upload=f, user=self.request.user)
+                attachment.save()
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)

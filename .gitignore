@@ -300,7 +300,6 @@ tags
 pyvenv.cfg
 pip-selfcheck.json
 
-
-
-
+# Uploads
 homeinventory/media/
+media/

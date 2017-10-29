@@ -144,6 +144,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
+
+#apagar todos os comentários abaixo
 STATIC_URL = '/static/'
 
 LOGIN_REDIRECT_URL = reverse_lazy('home')
+
+MEDIA_URL = '/media/'
+
+MEDIA_ROOT = os.path.join(os.path.dirname(environ.Path(__file__) - 2), 'media')

@@ -4,6 +4,10 @@ from . import views
 from .views import LocationList, LocationDetail, LocationCreate, LocationUpdate, LocationDelete
 from .views import CategoryList, CategoryDetail, CategoryCreate, CategoryUpdate, CategoryDelete
 from .views import ItemList, ItemDetail, ItemCreate, ItemUpdate, ItemDelete
+from .views import ItemAttachmentView
+
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     url(r'^locations/$', LocationList.as_view(), name='location-list'),
@@ -24,5 +28,9 @@ urlpatterns = [
     url(r'^items/(?P<pk>[0-9]+)/update$', ItemUpdate.as_view(), name='item-update'),
     url(r'^items/(?P<pk>[0-9]+)/delete$', ItemDelete.as_view(), name='item-delete'),
 
+    url(r'^items/(?P<pk>[0-9]+)/attachments$', ItemAttachmentView.as_view(), name='item-attachment'),
+
     url(r'^register/$', views.register, name='register'),
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
