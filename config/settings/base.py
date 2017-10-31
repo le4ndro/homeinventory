@@ -19,6 +19,7 @@ import environ
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 ROOT_DIR = environ.Path(__file__) - 3
+
 APPS_DIR = ROOT_DIR.path('homeinventory')
 
 # Load operating system environment variables and then prepare to use them
@@ -65,6 +66,7 @@ THIRD_PARTY_APPS = [
 ]
 LOCAL_APPS = [
     'homeinventory.inventory.apps.InventoryConfig',
+    'homeinventory.core.apps.CoreConfig',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -152,4 +154,5 @@ LOGIN_REDIRECT_URL = reverse_lazy('home')
 
 MEDIA_URL = '/media/'
 
-MEDIA_ROOT = os.path.join(os.path.dirname(environ.Path(__file__) - 2), 'media')
+
+MEDIA_ROOT = os.path.join(os.path.dirname(str(environ.Path(__file__) - 2)), 'media')

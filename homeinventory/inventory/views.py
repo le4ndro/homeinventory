@@ -8,6 +8,7 @@ from django.shortcuts import get_object_or_404
 from django_filters.views import FilterView
 
 from django.contrib.auth.mixins import LoginRequiredMixin
+from homeinventory.core.views import GenericActionConfirmationMixin
 
 from .models import Location, Category, Item, ItemAttachment
 
@@ -15,24 +16,7 @@ from .forms import UserRegistrationForm, ItemAttachmentForm
 
 from .filters import ItemFilter
 
-#
-# Shared section
-#
-
-class GenericActionConfirmationMixin:
-
-    @property
-    def success_msg(self):
-        return NotImplemented
-
-    def form_valid(self, form):
-        messages.info(self.request, self.success_msg)
-        return super(GenericActionConfirmationMixin, self).form_valid(form)
-
-#
-# General section
-#
-
+     
 def register(request):
     if request.method == 'POST':
         user_form = UserRegistrationForm(request.POST)
@@ -44,7 +28,7 @@ def register(request):
     else:
         user_form = UserRegistrationForm()
         return render(request, 'inventory/register.html', {'user_form': user_form})
-
+1
 
 #
 # Location section

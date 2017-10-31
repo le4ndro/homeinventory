@@ -4,20 +4,10 @@ from django.db import models
 from django.urls import reverse
 import os
 
+from homeinventory.core.models import TimeStampedModel
+
 def get_sentinel_user():
     return get_user_model().objects.get_or_create(username='deleted')[0]
-
-class TimeStampedModel(models.Model):
-    """
-    An abstract base class model that provides self-updating
-    created and modified fields.
-    """
-
-    created = models.DateTimeField(auto_now_add=True)
-    modified = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        abstract = True
 
 
 class Category(TimeStampedModel):
