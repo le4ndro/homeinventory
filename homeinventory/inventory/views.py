@@ -1,11 +1,9 @@
-from django.contrib import messages
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.views.generic import DeleteView
 from django.views.generic import FormView
 from django.urls import reverse_lazy
 from django.shortcuts import get_object_or_404
-
-from django_filters.views import FilterView
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from homeinventory.core.views import GenericActionConfirmationMixin
@@ -16,7 +14,7 @@ from .forms import UserRegistrationForm, ItemAttachmentForm
 
 from .filters import ItemFilter
 
-     
+
 def register(request):
     if request.method == 'POST':
         user_form = UserRegistrationForm(request.POST)
@@ -24,11 +22,13 @@ def register(request):
             new_user = user_form.save(commit=False)
             new_user.set_password(user_form.cleaned_data['password'])
             new_user.save()
-            return render(request, 'inventory/register_done.html', {'new_user': new_user})
+            return render(request, 'inventory/register_done.html',
+                          {'new_user': new_user})
     else:
         user_form = UserRegistrationForm()
-        return render(request, 'inventory/register.html', {'user_form': user_form})
-1
+        return render(request, 'inventory/register.html',
+                      {'user_form': user_form})
+
 
 #
 # Location section
@@ -49,10 +49,13 @@ class LocationList(LoginRequiredMixin, ListView):
 
         return queryset
 
+
 class LocationDetail(LoginRequiredMixin, DetailView):
     model = Location
 
-class LocationCreate(LoginRequiredMixin, GenericActionConfirmationMixin, CreateView):
+
+class LocationCreate(LoginRequiredMixin, GenericActionConfirmationMixin,
+                     CreateView):
     model = Location
     success_msg = "Location created!"
 
@@ -63,14 +66,18 @@ class LocationCreate(LoginRequiredMixin, GenericActionConfirmationMixin, CreateV
         form.instance.user = self.request.user
         return super(LocationCreate, self).form_valid(form)
 
-class LocationUpdate(LoginRequiredMixin, GenericActionConfirmationMixin, UpdateView):
+
+class LocationUpdate(LoginRequiredMixin, GenericActionConfirmationMixin,
+                     UpdateView):
     model = Location
     success_msg = "Location updated!"
 
     fields = ['name', 'description']
     success_url = reverse_lazy('location-list')
 
-class LocationDelete(LoginRequiredMixin, GenericActionConfirmationMixin, DeleteView):
+
+class LocationDelete(LoginRequiredMixin, GenericActionConfirmationMixin,
+                     DeleteView):
     model = Location
     success_url = reverse_lazy('location-list')
     success_msg = "Location deleted!"
@@ -78,6 +85,7 @@ class LocationDelete(LoginRequiredMixin, GenericActionConfirmationMixin, DeleteV
 #
 # Category section
 #
+
 
 class CategoryList(LoginRequiredMixin, ListView):
     model = Category
@@ -94,10 +102,13 @@ class CategoryList(LoginRequiredMixin, ListView):
 
         return queryset
 
+
 class CategoryDetail(LoginRequiredMixin, DetailView):
     model = Category
 
-class CategoryCreate(LoginRequiredMixin, GenericActionConfirmationMixin, CreateView):
+
+class CategoryCreate(LoginRequiredMixin, GenericActionConfirmationMixin,
+                     CreateView):
     model = Category
     fields = ['name', 'description']
     success_url = reverse_lazy('category-list')
@@ -107,13 +118,16 @@ class CategoryCreate(LoginRequiredMixin, GenericActionConfirmationMixin, CreateV
         form.instance.user = self.request.user
         return super(CategoryCreate, self).form_valid(form)
 
+
 class CategoryUpdate(LoginRequiredMixin, UpdateView):
     model = Category
     fields = ['name', 'description']
     success_url = reverse_lazy('category-list')
     success_msg = "Category updated!"
 
-class CategoryDelete(LoginRequiredMixin, GenericActionConfirmationMixin, DeleteView):
+
+class CategoryDelete(LoginRequiredMixin, GenericActionConfirmationMixin,
+                     DeleteView):
     model = Category
     success_url = reverse_lazy('category-list')
     success_msg = "Category deleted!"
@@ -121,6 +135,7 @@ class CategoryDelete(LoginRequiredMixin, GenericActionConfirmationMixin, DeleteV
 #
 # Item section
 #
+
 
 class ItemList(LoginRequiredMixin, ListView):
     model = Item
@@ -137,6 +152,7 @@ class ItemList(LoginRequiredMixin, ListView):
         context['filter'] = item_filter
         return context
 
+
 class ItemDetail(LoginRequiredMixin, DetailView):
     model = Item
 
@@ -145,6 +161,7 @@ class ItemDetail(LoginRequiredMixin, DetailView):
         attachments = ItemAttachment.objects.filter(item=self.get_object())
         context['attachments'] = attachments
         return context
+
 
 class ItemCreate(LoginRequiredMixin, CreateView):
     model = Item
@@ -175,6 +192,7 @@ class ItemCreate(LoginRequiredMixin, CreateView):
         form.instance.user = self.request.user
         return super(ItemCreate, self).form_valid(form)
 
+
 class ItemUpdate(LoginRequiredMixin, UpdateView):
     model = Item
     fields = [
@@ -200,10 +218,13 @@ class ItemUpdate(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy('item-list')
     success_msg = "Item updated!"
 
-class ItemDelete(LoginRequiredMixin, GenericActionConfirmationMixin, DeleteView):
+
+class ItemDelete(LoginRequiredMixin, GenericActionConfirmationMixin,
+                 DeleteView):
     model = Category
     success_url = reverse_lazy('item-list')
     success_msg = "Item deleted!"
+
 
 class ItemAttachmentView(LoginRequiredMixin, FormView):
     form_class = ItemAttachmentForm
@@ -211,7 +232,7 @@ class ItemAttachmentView(LoginRequiredMixin, FormView):
     success_url = reverse_lazy('item-detail')
 
     def get(self, request, *args, **kwargs):
-        item = get_object_or_404(Item,pk=self.kwargs.get('pk'))
+        item = get_object_or_404(Item, pk=self.kwargs.get('pk'))
         form = self.form_class(initial={"item_id": item.id})
         return render(request, self.template_name, {'form': form})
 
@@ -219,12 +240,13 @@ class ItemAttachmentView(LoginRequiredMixin, FormView):
         form_class = self.get_form_class()
         form = self.get_form(form_class)
         files = request.FILES.getlist('upload')
-        item = get_object_or_404(Item,pk=request.POST.get("item_id", ""))
+        item = get_object_or_404(Item, pk=request.POST.get("item_id", ""))
         self.success_url = item.get_absolute_url()
 
         if form.is_valid():
             for f in files:
-                attachment = ItemAttachment(item=item, upload=f, user=self.request.user)
+                attachment = ItemAttachment(item=item, upload=f,
+                                            user=self.request.user)
                 attachment.save()
             return self.form_valid(form)
         else:

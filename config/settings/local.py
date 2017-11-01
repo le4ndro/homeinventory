@@ -20,7 +20,8 @@ TEMPLATES[0]['OPTIONS']['debug'] = DEBUG
 # ------------------------------------------------------------------------------
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#secret-key
 # Note: This key only used for development and testing.
-SECRET_KEY = env('DJANGO_SECRET_KEY', default='YdzL_2+I#dBph7!{yum|m@R<SetDxajI!89vlSZM<S*%pnrJAu')
+SECRET_KEY = env('DJANGO_SECRET_KEY',
+                 default='YdzL_2+I#dBph7!{yum|m@R<SetDxajI!89vlSZM<S*%pnrJAu')
 
 # Mail settings
 # ------------------------------------------------------------------------------
@@ -57,7 +58,7 @@ DEBUG_TOOLBAR_CONFIG = {
 
 # django-extensions
 # ------------------------------------------------------------------------------
-#INSTALLED_APPS += ['django_extensions', ]
+# INSTALLED_APPS += ['django_extensions', ]
 
 # TESTING
 # ------------------------------------------------------------------------------

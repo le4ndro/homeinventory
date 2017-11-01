@@ -29,8 +29,10 @@ env = environ.Env()
 READ_DOT_ENV_FILE = env.bool('DJANGO_READ_DOT_ENV_FILE', default=True)
 
 if READ_DOT_ENV_FILE:
-    # Operating System Environment variables have precedence over variables defined in the .env file,
-    # that is to say variables from the .env files will only be used if not defined
+    # Operating System Environment variables have precedence over variables
+    # defined in the .env file,
+    # that is to say variables from the .env files will only be used if not
+    # defined
     # as environment variables.
     env_file = str(ROOT_DIR.path('.env'))
     print('Loading : {}'.format(env_file))
@@ -86,7 +88,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [str(APPS_DIR.path('templates')),],
+        'DIRS': [str(APPS_DIR.path('templates')), ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -147,12 +149,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 
-#apagar todos os comentários abaixo
 STATIC_URL = '/static/'
 
 LOGIN_REDIRECT_URL = reverse_lazy('home')
 
 MEDIA_URL = '/media/'
 
-
-MEDIA_ROOT = os.path.join(os.path.dirname(str(environ.Path(__file__) - 2)), 'media')
+MEDIA_ROOT = os.path.join(os.path.dirname(
+        str(environ.Path(__file__) - 2)), 'media')

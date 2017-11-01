@@ -1,10 +1,11 @@
 from django import forms
 from django.contrib.auth.models import User
-from .models import ItemAttachment
+
 
 class UserRegistrationForm(forms.ModelForm):
     password = forms.CharField(label='Password', widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Repeat password', widget=forms.PasswordInput)
+    password2 = forms.CharField(label='Repeat password',
+                                widget=forms.PasswordInput)
 
     class Meta:
         model = User
@@ -19,4 +20,5 @@ class UserRegistrationForm(forms.ModelForm):
 
 class ItemAttachmentForm(forms.Form):
     item_id = forms.IntegerField(widget=forms.HiddenInput)
-    upload = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
+    upload = forms.FileField(widget=forms.ClearableFileInput(
+                                                attrs={'multiple': True}))
