@@ -106,3 +106,17 @@ class ItemAttachment(models.Model):
     @property
     def filename(self):
         return os.path.basename(self.upload.name)
+
+
+class ItemPhoto(models.Model):
+    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    upload = models.ImageField(upload_to=user_directory_path)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET(get_sentinel_user),
+        null=True
+    )
+
+    @property
+    def filename(self):
+        return os.path.basename(self.upload.name)

@@ -22,3 +22,9 @@ class ItemAttachmentForm(forms.Form):
     item_id = forms.IntegerField(widget=forms.HiddenInput)
     upload = forms.FileField(widget=forms.ClearableFileInput(
                                                 attrs={'multiple': True}))
+
+
+class PhotoAttachmentForm(forms.Form):
+    item_id = forms.IntegerField(widget=forms.HiddenInput)
+    upload = forms.FileField(widget=forms.ClearableFileInput(
+                                                attrs={'multiple': True}))

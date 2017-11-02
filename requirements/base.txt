@@ -15,3 +15,6 @@ django-widget-tweaks==1.4.1
 psycopg2==2.7.3.1
 
 django-filter==1.1.0
+
+Pillow==3.4.1
+easy-thumbnails==2.5.0

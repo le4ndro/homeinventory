@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% load thumbnail %}
+
 {% block title %}Details - {{ item.make }} / {{item.model}} {% endblock %}
 
 {% block content %}
@@ -26,6 +28,21 @@
       <b>Warranty expiration:</b> {{ item.warranty_expiration }}<br>
       <b>Warranty contact info:</b> {{ item.warranty_contact_info }}<br>
     </p>
+
+    <h3>Photos</h3>
+    <p>
+      <a href="{% url 'item-photo' pk=item.id %}" class="btn btn-primary">Add photo</a>
+    </p>
+
+    {% if photos %}
+
+      {% for photo in photos %}
+        <a href="{{ photo.upload.url }}" target="_blank">
+          <img src="{{ photo.upload|thumbnail_url:'thumb100' }}" alt="" />
+        </a><br>
+      {% endfor %}
+
+    {% endif %}
 
     <h3>Attachments</h3>
     <p>

@@ -64,7 +64,8 @@ DJANGO_APPS = [
 ]
 THIRD_PARTY_APPS = [
     'widget_tweaks',
-    'django_filters'
+    'django_filters',
+    'easy_thumbnails',
 ]
 LOCAL_APPS = [
     'homeinventory.inventory.apps.InventoryConfig',
@@ -157,3 +158,10 @@ MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.path.join(os.path.dirname(
         str(environ.Path(__file__) - 2)), 'media')
+
+THUMBNAIL_ALIASES = {
+    '': {
+        'default': {'size': (50, 50), 'crop': True},
+        'thumb100': {'size': (100, 100), 'crop': True},
+    },
+}

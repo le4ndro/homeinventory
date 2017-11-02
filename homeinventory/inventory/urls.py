@@ -10,6 +10,7 @@ from homeinventory.inventory.views import CategoryUpdate, CategoryDelete
 from homeinventory.inventory.views import ItemList, ItemDetail, ItemCreate
 from homeinventory.inventory.views import ItemUpdate
 from homeinventory.inventory.views import ItemDelete, ItemAttachmentView
+from homeinventory.inventory.views import ItemPhotoView
 
 from django.conf import settings
 from django.conf.urls.static import static
@@ -55,6 +56,10 @@ urlpatterns = [
     url(r'^items/(?P<pk>[0-9]+)/attachments$',
         ItemAttachmentView.as_view(),
         name='item-attachment'),
+
+    url(r'^items/(?P<pk>[0-9]+)/photos$',
+        ItemPhotoView.as_view(),
+        name='item-photo'),
 
     url(r'^register/$', views.register, name='register'),
 ]

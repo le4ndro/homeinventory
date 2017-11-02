@@ -8,11 +8,15 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from homeinventory.core.views import GenericActionConfirmationMixin
 
-from .models import Location, Category, Item, ItemAttachment
+from homeinventory.inventory.models import Location, Category, Item
+from homeinventory.inventory.models import ItemAttachment
+from homeinventory.inventory.models import ItemPhoto
 
-from .forms import UserRegistrationForm, ItemAttachmentForm
+from homeinventory.inventory.forms import UserRegistrationForm
+from homeinventory.inventory.forms import ItemAttachmentForm
+from homeinventory.inventory.forms import PhotoAttachmentForm
 
-from .filters import ItemFilter
+from homeinventory.inventory.filters import ItemFilter
 
 
 def register(request):
@@ -160,6 +164,8 @@ class ItemDetail(LoginRequiredMixin, DetailView):
         context = super(ItemDetail, self).get_context_data(**kwargs)
         attachments = ItemAttachment.objects.filter(item=self.get_object())
         context['attachments'] = attachments
+        photos = ItemPhoto.objects.filter(item=self.get_object())
+        context['photos'] = photos
         return context
 
 
@@ -248,6 +254,33 @@ class ItemAttachmentView(LoginRequiredMixin, FormView):
                 attachment = ItemAttachment(item=item, upload=f,
                                             user=self.request.user)
                 attachment.save()
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+
+
+class ItemPhotoView(LoginRequiredMixin, FormView):
+    form_class = PhotoAttachmentForm
+    template_name = 'inventory/item_photo_upload.html'
+    success_url = reverse_lazy('item-detail')
+
+    def get(self, request, *args, **kwargs):
+        item = get_object_or_404(Item, pk=self.kwargs.get('pk'))
+        form = self.form_class(initial={"item_id": item.id})
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        files = request.FILES.getlist('upload')
+        item = get_object_or_404(Item, pk=request.POST.get("item_id", ""))
+        self.success_url = item.get_absolute_url()
+
+        if form.is_valid():
+            for f in files:
+                photo = ItemPhoto(item=item, upload=f,
+                                  user=self.request.user)
+                photo.save()
             return self.form_valid(form)
         else:
             return self.form_invalid(form)
