@@ -16,6 +16,7 @@ from homeinventory.inventory.forms import UserRegistrationForm
 from homeinventory.inventory.forms import ItemAttachmentForm
 from homeinventory.inventory.forms import PhotoAttachmentForm
 from homeinventory.inventory.forms import CategoryForm
+from homeinventory.inventory.forms import LocationForm
 
 from homeinventory.inventory.filters import ItemFilter
 
@@ -63,8 +64,7 @@ class LocationCreate(LoginRequiredMixin, GenericActionConfirmationMixin,
                      CreateView):
     model = Location
     success_msg = "Location created!"
-
-    fields = ['name', 'description']
+    form_class = LocationForm
     success_url = reverse_lazy('location-list')
 
     def form_valid(self, form):
@@ -76,8 +76,7 @@ class LocationUpdate(LoginRequiredMixin, GenericActionConfirmationMixin,
                      UpdateView):
     model = Location
     success_msg = "Location updated!"
-
-    fields = ['name', 'description']
+    form_class = LocationForm
     success_url = reverse_lazy('location-list')
 
 

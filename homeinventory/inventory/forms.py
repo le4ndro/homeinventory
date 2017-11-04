@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import ModelForm, Textarea
 from django.contrib.auth.models import User
-from homeinventory.inventory.models import Category
+from homeinventory.inventory.models import Category, Location
 
 
 class UserRegistrationForm(ModelForm):
@@ -35,6 +35,15 @@ class PhotoAttachmentForm(forms.Form):
 class CategoryForm(ModelForm):
     class Meta:
         model = Category
+        fields = ('name', 'description')
+        widgets = {
+            'description': Textarea(attrs={'cols': 80, 'rows': 10}),
+        }
+
+
+class LocationForm(ModelForm):
+    class Meta:
+        model = Location
         fields = ('name', 'description')
         widgets = {
             'description': Textarea(attrs={'cols': 80, 'rows': 10}),
