@@ -15,6 +15,7 @@ from homeinventory.inventory.models import ItemPhoto
 from homeinventory.inventory.forms import UserRegistrationForm
 from homeinventory.inventory.forms import ItemAttachmentForm
 from homeinventory.inventory.forms import PhotoAttachmentForm
+from homeinventory.inventory.forms import CategoryForm
 
 from homeinventory.inventory.filters import ItemFilter
 
@@ -114,7 +115,7 @@ class CategoryDetail(LoginRequiredMixin, DetailView):
 class CategoryCreate(LoginRequiredMixin, GenericActionConfirmationMixin,
                      CreateView):
     model = Category
-    fields = ['name', 'description']
+    form_class = CategoryForm
     success_url = reverse_lazy('category-list')
     success_msg = "Category created!"
 
@@ -125,7 +126,7 @@ class CategoryCreate(LoginRequiredMixin, GenericActionConfirmationMixin,
 
 class CategoryUpdate(LoginRequiredMixin, UpdateView):
     model = Category
-    fields = ['name', 'description']
+    form_class = CategoryForm
     success_url = reverse_lazy('category-list')
     success_msg = "Category updated!"
 
