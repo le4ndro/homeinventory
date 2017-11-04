@@ -16,7 +16,7 @@ from homeinventory.inventory.forms import UserRegistrationForm
 from homeinventory.inventory.forms import ItemAttachmentForm
 from homeinventory.inventory.forms import PhotoAttachmentForm
 from homeinventory.inventory.forms import CategoryForm
-from homeinventory.inventory.forms import LocationForm
+from homeinventory.inventory.forms import LocationForm, ItemForm
 
 from homeinventory.inventory.filters import ItemFilter
 
@@ -171,7 +171,8 @@ class ItemDetail(LoginRequiredMixin, DetailView):
 
 class ItemCreate(LoginRequiredMixin, CreateView):
     model = Item
-    fields = [
+    form_class = ItemForm
+    """fields = [
                 'make',
                 'model',
                 'id_number',
@@ -191,6 +192,7 @@ class ItemCreate(LoginRequiredMixin, CreateView):
                 'warranty_expiration',
                 'warranty_contact_info'
              ]
+             """
     success_url = reverse_lazy('item-list')
     success_msg = "Item created!"
 
@@ -201,7 +203,8 @@ class ItemCreate(LoginRequiredMixin, CreateView):
 
 class ItemUpdate(LoginRequiredMixin, UpdateView):
     model = Item
-    fields = [
+    form_class = ItemForm
+    """fields = [
                 'make',
                 'model',
                 'id_number',
@@ -221,6 +224,7 @@ class ItemUpdate(LoginRequiredMixin, UpdateView):
                 'warranty_expiration',
                 'warranty_contact_info'
              ]
+             """
     success_url = reverse_lazy('item-list')
     success_msg = "Item updated!"
 

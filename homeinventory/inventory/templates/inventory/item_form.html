@@ -6,6 +6,7 @@
 
 {% block content %}
   <h1>Item</h1>
+  <!--
   <div style="width:40%">
     <form action="" method="post">
         {% csrf_token %}
@@ -21,4 +22,196 @@
         <input type="submit" value="Submit" class="btn btn-primary"/>
     </form>
   </div>
+  -->
+  <form action="" method="post">
+      {% csrf_token %}
+      {{ form.non_field_errors }}
+      <div class="row">
+          <div class="col-md-3">
+              <div class="form-group">
+                  {{ form.model.errors }}
+                  {{ form.model.label_tag }} {{ form.model|add_class:"form-control" }}
+                  {% if form.model.help_text %}
+                  <p class="help">{{ form.model.help_text|safe }}</p>
+                  {% endif %}
+              </div>
+          </div>
+          <div class="col-md-3">
+              <div class="form-group">
+                  {{ form.category.errors }}
+                  {{ form.category.label_tag }} {{ form.category|add_class:"form-control" }}
+                  {% if form.category.help_text %}
+                  <p class="help">{{ form.category.help_text|safe }}</p>
+                  {% endif %}
+              </div>
+          </div>
+          <div class="col-md-3">
+              <div class="form-group">
+                  {{ form.location.errors }}
+                  {{ form.location.label_tag }} {{ form.location|add_class:"form-control" }}
+                  {% if form.location.help_text %}
+                  <p class="help">{{ form.location.help_text|safe }}</p>
+                  {% endif %}
+              </div>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col-md-9">
+              <div class="form-group">
+                  {{ form.description.errors }}
+                  {{ form.description.label_tag }} {{ form.description|add_class:"form-control" }}
+                  {% if form.description.help_text %}
+                  <p class="help">{{ form.description.help_text|safe }}</p>
+                  {% endif %}
+              </div>
+          </div>
+      </div>
+      <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+        Advanced
+      </button>
+      <br><br>
+      <div class="collapse" id="collapseExample">
+          <div class="row">
+              <div class="col-md-3">
+                  <div class="form-group">
+                      {{ form.make.errors }}
+                      {{ form.make.label_tag }} {{ form.make|add_class:"form-control" }}
+                      {% if form.make.help_text %}
+                      <p class="help">{{ form.make.help_text|safe }}</p>
+                      {% endif %}
+                  </div>
+              </div>
+              <div class="col-md-3">
+                  <div class="form-group">
+                      {{ form.id_number.errors }}
+                      {{ form.id_number.label_tag }} {{ form.id_number|add_class:"form-control" }}
+                      {% if form.id_number.help_text %}
+                      <p class="help">{{ form.id_number.help_text|safe }}</p>
+                      {% endif %}
+                  </div>
+              </div>
+              <div class="col-md-3">
+                  <div class="form-group">
+                      {{ form.year.errors }}
+                      {{ form.year.label_tag }} {{ form.year|add_class:"form-control" }}
+                      {% if form.year.help_text %}
+                      <p class="help">{{ form.year.help_text|safe }}</p>
+                      {% endif %}
+                  </div>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-md-9">
+                  <div class="form-group">
+                      {{ form.attributes.errors }}
+                      {{ form.attributes.label_tag }} {{ form.attributes|add_class:"form-control" }}
+                      {% if form.attributes.help_text %}
+                      <p class="help">{{ form.attributes.help_text|safe }}</p>
+                      {% endif %}
+                  </div>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-md-3">
+                  <div class="form-group">
+                      {{ form.purchased_from.errors }}
+                      {{ form.purchased_from.label_tag }} {{ form.purchased_from|add_class:"form-control" }}
+                      {% if form.purchased_from.help_text %}
+                      <p class="help">{{ form.purchased_from.help_text|safe }}</p>
+                      {% endif %}
+                  </div>
+              </div>
+              <div class="col-md-3">
+                  <div class="form-group">
+                      {{ form.purchased_date.errors }}
+                      {{ form.purchased_date.label_tag }} {{ form.purchased_date|add_class:"form-control" }}
+                      {% if form.purchased_date.help_text %}
+                      <p class="help">{{ form.purchased_date.help_text|safe }}</p>
+                      {% endif %}
+                  </div>
+              </div>
+              <div class="col-md-3">
+                  <div class="form-group">
+                      {{ form.quantity.errors }}
+                      {{ form.quantity.label_tag }} {{ form.quantity|add_class:"form-control" }}
+                      {% if form.quantity.help_text %}
+                      <p class="help">{{ form.quantity.help_text|safe }}</p>
+                      {% endif %}
+                  </div>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-md-3">
+                  <div class="form-group">
+                      {{ form.value.errors }}
+                      {{ form.value.label_tag }} {{ form.value|add_class:"form-control" }}
+                      {% if form.value.help_text %}
+                      <p class="help">{{ form.value.help_text|safe }}</p>
+                      {% endif %}
+                  </div>
+              </div>
+              <div class="col-md-3">
+                  <div class="form-group">
+                      {{ form.estimated_current_value.errors }}
+                      {{ form.estimated_current_value.label_tag }} {{ form.estimated_current_value|add_class:"form-control" }}
+                      {% if form.estimated_current_value.help_text %}
+                      <p class="help">{{ form.estimated_current_value.help_text|safe }}</p>
+                      {% endif %}
+                  </div>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-md-9">
+                  <div class="form-group">
+                      {{ form.notes.errors }}
+                      {{ form.notes.label_tag }} {{ form.notes|add_class:"form-control" }}
+                      {% if form.notes.help_text %}
+                      <p class="help">{{ form.notes.help_text|safe }}</p>
+                      {% endif %}
+                  </div>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-md-3">
+                  <div class="form-group">
+                      {{ form.warranty.errors }}
+                      {{ form.warranty.label_tag }} {{ form.warranty|add_class:"form-control" }}
+                      {% if form.warranty.help_text %}
+                      <p class="help">{{ form.warranty.help_text|safe }}</p>
+                      {% endif %}
+                  </div>
+              </div>
+              <div class="col-md-3">
+                  <div class="form-group">
+                      {{ form.warranty_type.errors }}
+                      {{ form.warranty_type.label_tag }} {{ form.warranty_type|add_class:"form-control" }}
+                      {% if form.warranty_type.help_text %}
+                      <p class="help">{{ form.warranty_type.help_text|safe }}</p>
+                      {% endif %}
+                  </div>
+              </div>
+              <div class="col-md-3">
+                  <div class="form-group">
+                      {{ form.warranty_expiration.errors }}
+                      {{ form.warranty_expiration.label_tag }} {{ form.warranty_expiration|add_class:"form-control" }}
+                      {% if form.warranty_expiration.help_text %}
+                      <p class="help">{{ form.warranty_expiration.help_text|safe }}</p>
+                      {% endif %}
+                  </div>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-md-9">
+                  <div class="form-group">
+                      {{ form.warranty_contact_info.errors }}
+                      {{ form.warranty_contact_info.label_tag }} {{ form.warranty_contact_info|add_class:"form-control" }}
+                      {% if form.warranty_contact_info.help_text %}
+                      <p class="help">{{ form.warranty_contact_info.help_text|safe }}</p>
+                      {% endif %}
+                  </div>
+              </div>
+          </div>
+      </div>
+      <input type="submit" value="Save" class="btn btn-primary"/>
+  </form>
 {% endblock %}

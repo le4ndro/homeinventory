@@ -1,7 +1,7 @@
 from django import forms
-from django.forms import ModelForm, Textarea
+from django.forms import ModelForm, Textarea, DateInput
 from django.contrib.auth.models import User
-from homeinventory.inventory.models import Category, Location
+from homeinventory.inventory.models import Category, Location, Item
 
 
 class UserRegistrationForm(ModelForm):
@@ -47,4 +47,41 @@ class LocationForm(ModelForm):
         fields = ('name', 'description')
         widgets = {
             'description': Textarea(attrs={'cols': 80, 'rows': 10}),
+        }
+
+
+class ItemForm(ModelForm):
+    class Meta:
+        model = Item
+        fields = (
+                    'make',
+                    'model',
+                    'id_number',
+                    'purchased_from',
+                    'purchased_date',
+                    'quantity',
+                    'value',
+                    'estimated_current_value',
+                    'description',
+                    'attributes',
+                    'notes',
+                    'year',
+                    'category',
+                    'location',
+                    'warranty',
+                    'warranty_type',
+                    'warranty_expiration',
+                    'warranty_contact_info'
+                 )
+        labels = {
+            'model': 'Model/Name/Title',
+            'description': 'Description/Details',
+        }
+        widgets = {
+            'description': Textarea(attrs={'cols': 80, 'rows': 5}),
+            'attributes': Textarea(attrs={'cols': 80, 'rows': 5}),
+            'warranty_contact_info': Textarea(attrs={'cols': 80, 'rows': 5}),
+            'notes': Textarea(attrs={'cols': 80, 'rows': 5}),
+            'purchased_date': DateInput(),
+            'warranty_expiration': DateInput(),
         }
