@@ -12,16 +12,17 @@
 
     <form method="get">
       <div class="card">
-        <h4 class="card-header">Filter</h4>
+        <h4 class="card-header" data-toggle="collapse" href="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">Filter</h4>
         <div class="card-body">
+          <div class="collapse" id="collapseFilter">
           <div class="row">
-            <div class="form-group col-sm-4 col-md-3">
-              {{ filter.form.make.label_tag }}
-              {{ filter.form.make|add_class:"form-control" }}
-            </div>
             <div class="form-group col-sm-4 col-md-3">
               {{ filter.form.model.label_tag }}
               {{ filter.form.model|add_class:"form-control" }}
+            </div>
+            <div class="form-group col-sm-4 col-md-3">
+              {{ filter.form.make.label_tag }}
+              {{ filter.form.make|add_class:"form-control" }}
             </div>
             <div class="form-group col-sm-4 col-md-3">
               {{ filter.form.id_number.label_tag }}
@@ -44,6 +45,7 @@
           </div>
           <button type="submit" class="btn btn-primary">Search</button>
         </div>
+        </div>
       </div>
     </form>
 
@@ -53,7 +55,7 @@
 
     <table class="table table-bordered">
       <thead>
-        <th>Model</th>
+        <th>Model/Name/Title</th>
         <th>Make</th>
         <th>Id Number</th>
         <th>Purchased date</th>

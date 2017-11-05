@@ -6,23 +6,6 @@
 
 {% block content %}
   <h1>Item</h1>
-  <!--
-  <div style="width:40%">
-    <form action="" method="post">
-        {% csrf_token %}
-        {% for field in form %}
-            <div class="form-group">
-                {{ field.errors }}
-                {{ field.label_tag }} {{ field|add_class:"form-control" }}
-                {% if field.help_text %}
-                <p class="help">{{ field.help_text|safe }}</p>
-                {% endif %}
-            </div>
-        {% endfor %}
-        <input type="submit" value="Submit" class="btn btn-primary"/>
-    </form>
-  </div>
-  -->
   <form action="" method="post">
       {% csrf_token %}
       {{ form.non_field_errors }}
@@ -66,11 +49,11 @@
               </div>
           </div>
       </div>
-      <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+      <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseAdvanced" aria-expanded="false" aria-controls="collapseAdvanced">
         Advanced
       </button>
       <br><br>
-      <div class="collapse" id="collapseExample">
+      <div class="collapse" id="collapseAdvanced">
           <div class="row">
               <div class="col-md-3">
                   <div class="form-group">
@@ -213,5 +196,6 @@
           </div>
       </div>
       <input type="submit" value="Save" class="btn btn-primary"/>
+      <button class="btn btn-primary" onclick="window.history.back()">Cancel</button>
   </form>
 {% endblock %}

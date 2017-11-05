@@ -172,27 +172,6 @@ class ItemDetail(LoginRequiredMixin, DetailView):
 class ItemCreate(LoginRequiredMixin, CreateView):
     model = Item
     form_class = ItemForm
-    """fields = [
-                'make',
-                'model',
-                'id_number',
-                'purchased_from',
-                'purchased_date',
-                'quantity',
-                'value',
-                'estimated_current_value',
-                'description',
-                'attributes',
-                'notes',
-                'year',
-                'category',
-                'location',
-                'warranty',
-                'warranty_type',
-                'warranty_expiration',
-                'warranty_contact_info'
-             ]
-             """
     success_url = reverse_lazy('item-list')
     success_msg = "Item created!"
 
@@ -204,27 +183,6 @@ class ItemCreate(LoginRequiredMixin, CreateView):
 class ItemUpdate(LoginRequiredMixin, UpdateView):
     model = Item
     form_class = ItemForm
-    """fields = [
-                'make',
-                'model',
-                'id_number',
-                'purchased_from',
-                'purchased_date',
-                'quantity',
-                'value',
-                'estimated_current_value',
-                'description',
-                'attributes',
-                'notes',
-                'year',
-                'category',
-                'location',
-                'warranty',
-                'warranty_type',
-                'warranty_expiration',
-                'warranty_contact_info'
-             ]
-             """
     success_url = reverse_lazy('item-list')
     success_msg = "Item updated!"
 
