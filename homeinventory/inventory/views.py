@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.views.generic import DeleteView
 from django.views.generic import FormView
@@ -219,6 +219,14 @@ class ItemAttachmentView(LoginRequiredMixin, FormView):
             return self.form_valid(form)
         else:
             return self.form_invalid(form)
+
+
+def item_attachment_delele(request, pk):
+    attachment = get_object_or_404(ItemAttachment, pk=pk)
+    item = attachment.item
+    attachment.upload.delete()
+    attachment.delete()
+    return redirect('item-detail', pk=item.pk)
 
 
 class ItemPhotoView(LoginRequiredMixin, FormView):

@@ -61,6 +61,10 @@ urlpatterns = [
         ItemPhotoView.as_view(),
         name='item-photo'),
 
+    url(r'^attachments/(?P<pk>[0-9]+)/remove$',
+        views.item_attachment_delele,
+        name='attachment-remove'),
+
     url(r'^register/$', views.register, name='register'),
 ]
 

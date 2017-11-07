@@ -50,10 +50,19 @@
     </p>
 
     {% if attachments %}
+    <div class="col-md-12">
+      <table class="table table-hover">
+        {% for attachment in attachments %}
+          <tr>
+              <td><a href="{{ attachment.upload.url }}" target="_blank"> {{ attachment.filename }}</a></td>
+              <td style="width:10%"><a href="{% url 'attachment-remove' pk=attachment.id %}" class="btn btn-danger delete">Remove</a></td>
+          </tr>
+        {% endfor %}
 
-      {% for attachment in attachments %}
-        <a href="{{ attachment.upload.url }}" target="_blank"> {{ attachment.filename }}</a><br>
-      {% endfor %}
+      </table>
+    </div>
+
+
 
     {% endif %}
 
@@ -64,4 +73,16 @@
     <a href="{% url 'item-list' %}" class="btn btn-primary">Back to list</a>
   </p>
 
+{% endblock %}
+
+{% block script %}
+  <script>
+    $(document).ready(function(){
+      $(".delete").click(function(){
+        if (!confirm("Do you really want to remove this attachment ?")){
+          return false;
+        }
+      });
+    });
+  </script>
 {% endblock %}
