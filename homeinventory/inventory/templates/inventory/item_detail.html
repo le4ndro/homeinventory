@@ -11,25 +11,85 @@
       <h1>{{ item.make }} / {{item.model}}</h1>
   </div>
   <div class="card-body">
-    <p>
-      <b>Id number:</b> {{ item.id_number }}<br>
-      <b>Purchased from:</b> {{ item.purchased_from }}<br>
-      <b>Purchased date:</b> {{ item.purchased_date }}<br>
-      <b>Quantity:</b> {{ item.quantity }}<br>
-      <b>Value:</b> {{ item.value }}<br>
-      <b>Estimated current value:</b> {{ item.estimated_current_value }}<br>
-      <b>Description:</b> {{ item.description }}<br>
-      <b>Attributes:</b> {{ item.attributes }}<br>
-      <b>Year:</b> {{ item.year }}<br>
-      <b>Category:</b> {{ item.category }}<br>
-      <b>Location:</b> {{ item.location }}<br>
-      <b>Warranty:</b> {{ item.warranty }}<br>
-      <b>Warranty type:</b> {{ item.warranty_type }}<br>
-      <b>Warranty expiration:</b> {{ item.warranty_expiration }}<br>
-      <b>Warranty contact info:</b> {{ item.warranty_contact_info }}<br>
-    </p>
+    <div class="row">
+      <div class="col-md-3">
+          <strong>Id number/Year:</strong><br> {{ item.id_number }}/{{ item.year }}
+      </div>
+      <div class="col-md-3">
+          <strong>Category:</strong><br> {{ item.category }}
+      </div>
+      <div class="col-md-3">
+          <strong>Location:</strong><br> {{ item.location }}<br>
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-md-9">
+          <strong>Description/Details:</strong><br> {{ item.description }}
+      </div>
+    </div>
+    <br>
+    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseMore" aria-expanded="false" aria-controls="collapseAdvanced">
+      More
+    </button>
+    <br>
+    <div class="collapse" id="collapseMore">
+      <br>
+      <div class="row">
+        <div class="col-md-9">
+            <strong>Attributes:</strong><br> {{ item.attributes }}
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-md-3">
+            <strong>Purchased from:</strong><br> {{ item.purchased_from }}
+        </div>
+        <div class="col-md-3">
+            <strong>Purchased date:</strong><br> {{ item.purchased_date }}
+        </div>
+        <div class="col-md-3">
+            <strong>Quantity:</strong><br> {{ item.quantity }}
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-md-3">
+          <strong>Value:</strong><br> {{ item.value }}
+        </div>
+        <div class="col-md-3">
+            <strong>Estimated current value:</strong><br> {{ item.estimated_current_value }}
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-md-9">
+            <strong>Notes:</strong><br> {{ item.notes }}
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-md-3">
+            <strong>Warranty:</strong><br> {{ item.warranty }}
+        </div>
+        <div class="col-md-3">
+            <strong>Warranty type:</strong><br> {{ item.warranty_type }}
+        </div>
+        <div class="col-md-3">
+            <strong>Warranty expiration:</strong><br> {{ item.warranty_expiration }}
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-md-9">
+          <strong>Warranty contact info:</strong><br> {{ item.warranty_contact_info }}
+        </div>
+      </div>
+    </div>
+    <br>
 
     <h3>Photos</h3>
+    <hr>
     <p>
       <a href="{% url 'item-photo' pk=item.id %}" class="btn btn-primary">Add photo</a>
     </p>
@@ -54,8 +114,9 @@
       {% endfor %}
       </div>
     {% endif %}
-
+    <br>
     <h3>Attachments</h3>
+    <hr>
     <p>
       <a href="{% url 'item-attachment' pk=item.id %}" class="btn btn-primary">Add attachment</a>
     </p>
