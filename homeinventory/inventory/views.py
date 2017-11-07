@@ -221,7 +221,7 @@ class ItemAttachmentView(LoginRequiredMixin, FormView):
             return self.form_invalid(form)
 
 
-def item_attachment_delele(request, pk):
+def item_attachment_delete(request, pk):
     attachment = get_object_or_404(ItemAttachment, pk=pk)
     item = attachment.item
     attachment.upload.delete()
@@ -254,3 +254,11 @@ class ItemPhotoView(LoginRequiredMixin, FormView):
             return self.form_valid(form)
         else:
             return self.form_invalid(form)
+
+
+def item_photo_delete(request, pk):
+    photo = get_object_or_404(ItemPhoto, pk=pk)
+    item = photo.item
+    photo.upload.delete()
+    photo.delete()
+    return redirect('item-detail', pk=item.pk)

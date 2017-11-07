@@ -36,12 +36,23 @@
 
     {% if photos %}
 
+      <div class="d-flex flex-wrap">
       {% for photo in photos %}
-        <a href="{{ photo.upload.url }}" target="_blank">
-          <img src="{{ photo.upload|thumbnail_url:'thumb100' }}" alt="" />
-        </a><br>
-      {% endfor %}
+            <div class="p-2">
+              <div class="card text-center" style="width: 10rem">
+                <div class="card-body">
 
+                  <p class="card-text">
+                    <a href="{{ photo.upload.url }}" target="_blank">
+                      <img src="{{ photo.upload|thumbnail_url:'thumb100' }}" alt="" />
+                    </a>
+                  </p>
+                  <a href="{% url 'photo-remove' pk=photo.id %}" class="btn btn-danger btn-sm delete">Remove</a>
+                </div>
+              </div>
+            </div>
+      {% endfor %}
+      </div>
     {% endif %}
 
     <h3>Attachments</h3>
@@ -63,7 +74,6 @@
     </div>
 
 
-
     {% endif %}
 
   </div>
@@ -79,7 +89,7 @@
   <script>
     $(document).ready(function(){
       $(".delete").click(function(){
-        if (!confirm("Do you really want to remove this attachment ?")){
+        if (!confirm("Do you really want to remove ?")){
           return false;
         }
       });
