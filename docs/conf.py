@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 #
 # Home Inventory documentation build configuration file, created by
-# sphinx-quickstart on Wed Nov  8 06:12:52 2017.
+# sphinx-quickstart on Wed Nov  8 22:03:48 2017.
 #
 # This file is execfile()d with the current directory set to its
 # containing dir.
@@ -22,6 +22,18 @@
 # sys.path.insert(0, os.path.abspath('.'))
 
 
+import sys
+import os
+
+import django
+from django.conf import settings
+
+sys.path.insert(0, os.path.abspath('..'))
+os.environ['DJANGO_SETTINGS_MODULE'] = 'config.settings.base'
+
+settings.configure()
+django.setup()
+
 # -- General configuration ------------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.
@@ -31,7 +43,9 @@
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = []
+extensions = ['sphinx.ext.autodoc',
+    'sphinx.ext.coverage',
+    'sphinx.ext.githubpages']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -47,8 +61,8 @@ master_doc = 'index'
 
 # General information about the project.
 project = 'Home Inventory'
-copyright = '2017, Leandro Abreu de Souza'
-author = 'Leandro Abreu de Souza'
+copyright = '2017, Leandro Souza'
+author = 'Leandro Souza'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -64,7 +78,7 @@ release = '0.1'
 #
 # This is also used if you do content translation via gettext catalogs.
 # Usually you set "language" from the command line for these cases.
-# language = None
+language = None
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
@@ -140,7 +154,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
     (master_doc, 'HomeInventory.tex', 'Home Inventory Documentation',
-     'Leandro Abreu de Souza', 'manual'),
+     'Leandro Souza', 'manual'),
 ]
 
 

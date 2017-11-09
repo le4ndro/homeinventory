@@ -12,6 +12,10 @@ def get_sentinel_user():
 
 
 class Category(TimeStampedModel):
+    """
+    A category of item.
+    """
+
     name = models.CharField(max_length=100)
     description = models.CharField(max_length=500)
     user = models.ForeignKey(
@@ -19,12 +23,18 @@ class Category(TimeStampedModel):
         on_delete=models.SET(get_sentinel_user),
         null=True
     )
+
+    class Meta:
+        app_label = 'inventory'
 
     def __str__(self):
         return self.name
 
 
 class Location(TimeStampedModel):
+    """
+    A location to place an item.
+    """
     name = models.CharField(max_length=100)
     description = models.CharField(max_length=500)
     user = models.ForeignKey(
@@ -33,11 +43,17 @@ class Location(TimeStampedModel):
         null=True
     )
 
+    class Meta:
+        app_label = 'inventory'
+
     def __str__(self):
         return self.name
 
 
 class Item(TimeStampedModel):
+    """
+    My things to be tracked.
+    """
     WARRANTY_CHOICES = (
         ('001', 'original manufacturer warranty'),
         ('002', 'insurance warranty underwritten and regulated as insurance'),
@@ -82,6 +98,9 @@ class Item(TimeStampedModel):
         null=True
     )
 
+    class Meta:
+        app_label = 'inventory'
+
     def __str__(self):
         return self.model
 
@@ -90,11 +109,17 @@ class Item(TimeStampedModel):
 
 
 def user_directory_path(instance, filename):
+    """
+    Return the directory where files uploaded by users will be saved.
+    """
     # file will be uploaded to MEDIA_ROOT/uploads/user_<id>/<filename>
     return 'uploads/user_{0}/{1}'.format(instance.user.id, filename)
 
 
 class ItemAttachment(models.Model):
+    """
+    An attachment(any document) of an item.
+    """
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     upload = models.FileField(upload_to=user_directory_path)
     user = models.ForeignKey(
@@ -103,12 +128,18 @@ class ItemAttachment(models.Model):
         null=True
     )
 
+    class Meta:
+        app_label = 'inventory'
+
     @property
     def filename(self):
         return os.path.basename(self.upload.name)
 
 
 class ItemPhoto(models.Model):
+    """
+    An image of an item.
+    """
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     upload = models.ImageField(upload_to=user_directory_path)
     user = models.ForeignKey(
@@ -116,6 +147,9 @@ class ItemPhoto(models.Model):
         on_delete=models.SET(get_sentinel_user),
         null=True
     )
+
+    class Meta:
+        app_label = 'inventory'
 
     @property
     def filename(self):
