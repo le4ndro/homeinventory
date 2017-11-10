@@ -152,6 +152,61 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+# Logging configuration
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse'
+        }
+    },
+    'formatters': {
+        'verbose': {
+            'format': '[homeinventory] %(levelname)s %(asctime)s %(message)s'
+        },
+    },
+    'handlers': {
+        # Send all messages to console
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
+        },
+        # Send info messages to syslog
+        # 'syslog': {
+        #     'level': 'INFO',
+        #     'class': 'logging.handlers.SysLogHandler',
+        #     'facility': SysLogHandler.LOG_LOCAL2,
+        #     'address': '/dev/log',
+        #     'formatter': 'verbose',
+        # },
+        # Warning messages are sent to admin emails
+        'mail_admins': {
+            'level': 'WARNING',
+            'filters': ['require_debug_false'],
+            'class': 'django.utils.log.AdminEmailHandler',
+        },
+        # critical errors are logged to sentry
+        # 'sentry': {
+        #     'level': 'ERROR',
+        #     'filters': ['require_debug_false'],
+        #     'class': 'raven.contrib.django.handlers.SentryHandler',
+        # },
+    },
+    'loggers': {
+        # This is the "catch all" logger
+        '': {
+            # 'handlers': ['console', 'syslog', 'mail_admins', 'sentry'],
+            'handlers': ['console', 'mail_admins'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+    }
+}
+
+
 LOGIN_REDIRECT_URL = reverse_lazy('home')
 
 MEDIA_URL = '/media/'

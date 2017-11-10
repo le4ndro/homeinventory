@@ -1,3 +1,5 @@
+import logging
+
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.views.generic import DeleteView
@@ -20,6 +22,8 @@ from homeinventory.inventory.forms import LocationForm, ItemForm
 
 from homeinventory.inventory.filters import ItemFilter
 
+logger = logging.getLogger(__name__)
+
 
 def register(request):
     if request.method == 'POST':
@@ -28,6 +32,8 @@ def register(request):
             new_user = user_form.save(commit=False)
             new_user.set_password(user_form.cleaned_data['password'])
             new_user.save()
+            logger.info('New user created. Username: {0}, Email: {1}'
+                        .format(new_user.username, new_user.email))
             return render(request, 'inventory/register_done.html',
                           {'new_user': new_user})
     else:
@@ -224,8 +230,10 @@ class ItemAttachmentView(LoginRequiredMixin, FormView):
 def item_attachment_delete(request, pk):
     attachment = get_object_or_404(ItemAttachment, pk=pk)
     item = attachment.item
+    file_name = attachment.upload.name
     attachment.upload.delete()
     attachment.delete()
+    logger.info("File {0} deleted by {1}.".format(file_name, request.user))
     return redirect('item-detail', pk=item.pk)
 
 
@@ -259,6 +267,8 @@ class ItemPhotoView(LoginRequiredMixin, FormView):
 def item_photo_delete(request, pk):
     photo = get_object_or_404(ItemPhoto, pk=pk)
     item = photo.item
+    file_name = photo.upload.name
     photo.upload.delete()
     photo.delete()
+    logger.info("File {0} deleted by {1}.".format(file_name, request.user))
     return redirect('item-detail', pk=item.pk)
