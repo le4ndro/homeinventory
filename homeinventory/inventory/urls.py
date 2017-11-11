@@ -8,9 +8,9 @@ from homeinventory.inventory.views import CategoryList, CategoryDetail
 from homeinventory.inventory.views import CategoryCreate
 from homeinventory.inventory.views import CategoryUpdate, CategoryDelete
 from homeinventory.inventory.views import ItemList, ItemDetail, ItemCreate
-from homeinventory.inventory.views import ItemUpdate
+from homeinventory.inventory.views import ItemUpdate, item_loan_returned
 from homeinventory.inventory.views import ItemDelete, ItemAttachmentView
-from homeinventory.inventory.views import ItemPhotoView
+from homeinventory.inventory.views import ItemPhotoView, ItemLoanCreate
 
 from django.conf import settings
 from django.conf.urls.static import static
@@ -68,6 +68,14 @@ urlpatterns = [
     url(r'^itemphotos/(?P<pk>[0-9]+)/remove$',
         views.item_photo_delete,
         name='photo-remove'),
+
+    url(r'^items/(?P<pk>[0-9]+)/loans$',
+        ItemLoanCreate.as_view(),
+        name='item-loan-create'),
+
+    url(r'^items/(?P<pk>[0-9]+)/returned$',
+        views.item_loan_returned,
+        name='item-loan-returned'),
 
     url(r'^register/$', views.register, name='register'),
 ]

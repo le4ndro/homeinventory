@@ -11,14 +11,14 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from homeinventory.core.views import GenericActionConfirmationMixin
 
 from homeinventory.inventory.models import Location, Category, Item
-from homeinventory.inventory.models import ItemAttachment
+from homeinventory.inventory.models import ItemAttachment, ItemLoan
 from homeinventory.inventory.models import ItemPhoto
 
 from homeinventory.inventory.forms import UserRegistrationForm
 from homeinventory.inventory.forms import ItemAttachmentForm
 from homeinventory.inventory.forms import PhotoAttachmentForm
 from homeinventory.inventory.forms import CategoryForm
-from homeinventory.inventory.forms import LocationForm, ItemForm
+from homeinventory.inventory.forms import LocationForm, ItemForm, ItemLoanForm
 
 from homeinventory.inventory.filters import ItemFilter
 
@@ -172,6 +172,10 @@ class ItemDetail(LoginRequiredMixin, DetailView):
         context['attachments'] = attachments
         photos = ItemPhoto.objects.filter(item=self.get_object())
         context['photos'] = photos
+        loans = ItemLoan.objects.filter(item=self.get_object())
+        context['loans'] = loans
+        latest_loan = ItemLoan.objects.latest('id')
+        context['can_loan'] = latest_loan.returned
         return context
 
 
@@ -271,4 +275,48 @@ def item_photo_delete(request, pk):
     photo.upload.delete()
     photo.delete()
     logger.info("File {0} deleted by {1}.".format(file_name, request.user))
+    return redirect('item-detail', pk=item.pk)
+
+
+#
+# ItemLoan section
+#
+
+class ItemLoanCreate(LoginRequiredMixin, FormView):
+    form_class = ItemLoanForm
+    template_name = 'inventory/item_loan_create.html'
+    success_url = reverse_lazy('item-detail')
+
+    def get(self, request, *args, **kwargs):
+        item = get_object_or_404(Item, pk=self.kwargs.get('pk'))
+        form = self.form_class(initial={"item_id": item.id})
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        item = get_object_or_404(Item, pk=request.POST.get("item_id", ""))
+        self.success_url = item.get_absolute_url()
+
+        if form.is_valid():
+            new_item_loan = ItemLoan(item=item,
+                                     who=form.cleaned_data['who'],
+                                     when=form.cleaned_data['when'],
+                                     why=form.cleaned_data['why'],
+                                     expected_return_date=form.
+                                     cleaned_data['expected_return_date']
+                                     )
+            new_item_loan.save()
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+
+
+def item_loan_returned(request, pk):
+    loan = get_object_or_404(ItemLoan, pk=pk)
+    item = loan.item
+    loan.returned = True
+    loan.save()
+    logger.info("Item id: {0} returned in {1}. Updated by {2}"
+                .format(item.id, loan.modified, request.user))
     return redirect('item-detail', pk=item.pk)

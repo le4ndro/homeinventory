@@ -154,3 +154,19 @@ class ItemPhoto(models.Model):
     @property
     def filename(self):
         return os.path.basename(self.upload.name)
+
+
+class ItemLoan(TimeStampedModel):
+    """
+    Loan registration with who, when, why and expected return of an item.
+    """
+    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    who = models.CharField(max_length=255)
+    when = models.DateTimeField()
+    why = models.CharField(max_length=500, null=True, blank=True)
+    expected_return_date = models.DateField(null=True, blank=True)
+    returned = models.BooleanField(default=False)
+
+    class Meta:
+        app_label = 'inventory'
+        get_latest_by = 'id'

@@ -130,11 +130,48 @@
               <td style="width:10%"><a href="{% url 'attachment-remove' pk=attachment.id %}" class="btn btn-danger delete">Remove</a></td>
           </tr>
         {% endfor %}
-
       </table>
     </div>
+    {% endif %}
 
+    <br>
+    <h3>Loans</h3>
+    <hr>
+    <p>
+      {% if can_loan %}
+        <a href="{% url 'item-loan-create' pk=item.id %}" class="btn btn-primary">Loan</a>
+      {% endif %}
+    </p>
 
+    {% if loans %}
+    <div class="col-md-12">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Who</th>
+            <th>When</th>
+            <th>Why</th>
+            <th>Expected return</th>
+            <th></th>
+          </tr>
+        </thead>
+        {% for loan in loans %}
+          <tr>
+              <td>{{ loan.who }}</td>
+              <td>{{ loan.when }}</td>
+              <td>{{ loan.why }}</td>
+              <td>{{ loan.expected_return_date }}</td>
+              <td>
+                {% if loan.returned %}
+                <span style="color:green">Returned</span>
+                {% else %}
+                <a href="{% url 'item-loan-returned' pk=loan.id %}" class="btn btn-primary">Returned</a>
+                {% endif %}
+              </td>
+          </tr>
+        {% endfor %}
+      </table>
+    </div>
     {% endif %}
 
   </div>

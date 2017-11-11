@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import ModelForm, Textarea, DateInput
 from django.contrib.auth.models import User
-from homeinventory.inventory.models import Category, Location, Item
+from homeinventory.inventory.models import Category, Location, Item, ItemLoan
 
 
 class UserRegistrationForm(ModelForm):
@@ -84,4 +84,15 @@ class ItemForm(ModelForm):
             'notes': Textarea(attrs={'cols': 80, 'rows': 5}),
             'purchased_date': DateInput(),
             'warranty_expiration': DateInput(),
+        }
+
+
+class ItemLoanForm(ModelForm):
+    item_id = forms.IntegerField(widget=forms.HiddenInput)
+
+    class Meta:
+        model = ItemLoan
+        fields = ('who', 'when', 'why', 'expected_return_date')
+        widgets = {
+            'why': Textarea(attrs={'cols': 80, 'rows': 10}),
         }
