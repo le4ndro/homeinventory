@@ -174,8 +174,11 @@ class ItemDetail(LoginRequiredMixin, DetailView):
         context['photos'] = photos
         loans = ItemLoan.objects.filter(item=self.get_object())
         context['loans'] = loans
-        latest_loan = ItemLoan.objects.latest('id')
-        context['can_loan'] = latest_loan.returned
+        if loans:
+            latest_loan = ItemLoan.objects.latest('id')
+            context['can_loan'] = latest_loan.returned
+        else:
+            context['can_loan'] = True
         return context
 
 
