@@ -1,5 +1,6 @@
 import logging
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
 
 from homeinventory.inventory.forms import UserRegistrationForm
 
@@ -21,3 +22,8 @@ def register(request):
         user_form = UserRegistrationForm()
         return render(request, 'accounts/register.html',
                       {'user_form': user_form})
+
+
+@login_required
+def my_account(request):
+    return render(request, 'accounts/my_account.html')

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Register done{% endblock %}
+
+{% block content %}
+
+  <div class="card">
+  <div class="card-header">
+    <h4>My Account</h4>
+  </div>
+  <div class="card-body">
+    <h4 class="card-title">Personal data</h4>
+    <p>
+      <strong>Name:</strong> {{ user.get_full_name }} <br>
+      <strong>Username:</strong> {{ user.get_username }} <br>
+      <strong>Email:</strong> {{ user.email }} <br>
+      <strong>Date joined</strong> {{ user.date_joined }} <br>
+      <strong>Last login</strong> {{ user.last_login }} <br>
+    </p>
+
+    <a href="{% url 'change-password' %}" class="btn btn-primary">Change password</a>
+  </div>
+  </div>
+
+{% endblock %}
