@@ -8,7 +8,7 @@ from homeinventory.inventory.views import CategoryList, CategoryDetail
 from homeinventory.inventory.views import CategoryCreate
 from homeinventory.inventory.views import CategoryUpdate, CategoryDelete
 from homeinventory.inventory.views import ItemList, ItemDetail, ItemCreate
-from homeinventory.inventory.views import ItemUpdate, item_loan_returned
+from homeinventory.inventory.views import ItemUpdate
 from homeinventory.inventory.views import ItemDelete, ItemAttachmentView
 from homeinventory.inventory.views import ItemPhotoView, ItemLoanCreate
 
@@ -76,8 +76,6 @@ urlpatterns = [
     url(r'^items/(?P<pk>[0-9]+)/returned$',
         views.item_loan_returned,
         name='item-loan-returned'),
-
-    url(r'^register/$', views.register, name='register'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -32,7 +32,8 @@ urlpatterns = [
 
     url(r'^admin/', admin.site.urls),
     url(r'^', include('homeinventory.inventory.urls')),
-    url(r'^accounts/', include('django.contrib.auth.urls')),
+    url(r'^auth/', include('django.contrib.auth.urls')),
+    url(r'^accounts/', include('homeinventory.accounts.urls')),
 ]
 
 

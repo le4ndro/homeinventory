@@ -70,6 +70,7 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     'homeinventory.inventory.apps.InventoryConfig',
     'homeinventory.core.apps.CoreConfig',
+    'homeinventory.accounts.apps.AccountsConfig',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -208,6 +209,7 @@ LOGGING = {
 
 
 LOGIN_REDIRECT_URL = reverse_lazy('home')
+LOGIN_URL = '/auth/login/'
 
 MEDIA_URL = '/media/'
 

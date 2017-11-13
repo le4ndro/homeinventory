@@ -14,7 +14,7 @@ from homeinventory.inventory.models import Location, Category, Item
 from homeinventory.inventory.models import ItemAttachment, ItemLoan
 from homeinventory.inventory.models import ItemPhoto
 
-from homeinventory.inventory.forms import UserRegistrationForm
+
 from homeinventory.inventory.forms import ItemAttachmentForm
 from homeinventory.inventory.forms import PhotoAttachmentForm
 from homeinventory.inventory.forms import CategoryForm
@@ -23,23 +23,6 @@ from homeinventory.inventory.forms import LocationForm, ItemForm, ItemLoanForm
 from homeinventory.inventory.filters import ItemFilter
 
 logger = logging.getLogger(__name__)
-
-
-def register(request):
-    if request.method == 'POST':
-        user_form = UserRegistrationForm(request.POST)
-        if user_form.is_valid():
-            new_user = user_form.save(commit=False)
-            new_user.set_password(user_form.cleaned_data['password'])
-            new_user.save()
-            logger.info('New user created. Username: {0}, Email: {1}'
-                        .format(new_user.username, new_user.email))
-            return render(request, 'inventory/register_done.html',
-                          {'new_user': new_user})
-    else:
-        user_form = UserRegistrationForm()
-        return render(request, 'inventory/register.html',
-                      {'user_form': user_form})
 
 
 #
