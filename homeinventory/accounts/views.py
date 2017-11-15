@@ -5,7 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import FormView
 from django.urls import reverse_lazy
 
-from homeinventory.inventory.forms import UserRegistrationForm
+from homeinventory.accounts.forms import UserRegistrationForm
 from homeinventory.accounts.forms import EditEmailForm
 
 logger = logging.getLogger(__name__)
