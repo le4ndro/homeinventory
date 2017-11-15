@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Register done{% endblock %}
+{% block title %}My Account{% endblock %}
 
 {% block content %}
 
@@ -13,7 +13,7 @@
     <p>
       <strong>Name:</strong> {{ user.get_full_name }} <br>
       <strong>Username:</strong> {{ user.get_username }} <br>
-      <strong>Email:</strong> {{ user.email }} <br>
+      <strong>Email:</strong> {{ user.email }} <a href="{% url 'edit-email' %}">Edit</a> <br>
       <strong>Date joined</strong> {{ user.date_joined }} <br>
       <strong>Last login</strong> {{ user.last_login }} <br>
     </p>
