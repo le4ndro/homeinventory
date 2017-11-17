@@ -71,6 +71,7 @@ LOCAL_APPS = [
     'homeinventory.inventory.apps.InventoryConfig',
     'homeinventory.core.apps.CoreConfig',
     'homeinventory.accounts.apps.AccountsConfig',
+    'homeinventory.dashboard.apps.DashboardConfig',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS

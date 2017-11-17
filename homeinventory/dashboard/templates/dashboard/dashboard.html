@@ -1,0 +1,216 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+
+    <h1>Dashboard</h1>
+    <hr>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Total by Category</h5>
+            <canvas id="total_category" width="400" height="400"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Total by Location</h5>
+            <canvas id="total_location" width="400" height="400"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+
+    <div class="row" >
+      <div class="col-md-6">
+        <div class="card" style="height: 20rem;">
+          <div class="card-body">
+            <h5 class="card-title">Items borrowed</h5>
+            <table class="table table-sm">
+              <thead>
+                <tr>
+                  <th scope="col">Item</th>
+                  <th scope="col">who</th>
+                  <th scope="col">When</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% if item_loan %}
+                  {% for item in item_loan %}
+                    <tr>
+                      <td> {{item.item.make}} / {{ item.item.model }}</td>
+                      <td> {{item.who}} </td>
+                      <td> {{item.when|date:"d/m/Y"}} </td>
+                    </tr>
+                  {% endfor %}
+                {% endif %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="card" style="height: 20rem;">
+          <div class="card-body">
+            <h5 class="card-title">Expiring warranties</h5>
+            <table class="table table-sm">
+              <thead>
+                <tr>
+                  <th scope="col">Item</th>
+                  <th scope="col">Expiration</th>
+                  <th scope="col">Seller</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% if item_loan %}
+                  {% for item in item_warranty %}
+                    <tr>
+                      <td> {{item.make}} / {{ item.model }}</td>
+                      <td> {{item.warranty_expiration|date:"d/m/Y"}} </td>
+                      <td> {{item.purchased_from}} </td>
+                    </tr>
+                  {% endfor %}
+                {% endif %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+{% endblock %}
+
+{% block script %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+<script>
+
+  $(function() {
+
+    renderTotalItemByCategory();
+    renderTotalItemByLocation();
+
+  });
+
+  function renderTotalItemByCategory(){
+    var label_a = [];
+    var data_a = [];
+    $.ajax({
+       url: "{% url 'total-item-by-category' %}",
+       error: function() {
+          console.log('error !!!');
+       },
+       success: function(data) {
+          $.each(data, function(index, value) {
+            label_a[index] = value.name;
+            data_a[index] = value.data;
+
+            renderDoughnutChart(label_a, data_a, "total_category");
+          });
+       },
+       type: 'GET',
+       dataType: 'json'
+    });
+  }
+
+  function renderTotalItemByLocation(){
+    var label_a = [];
+    var data_a = [];
+    $.ajax({
+       url: "{% url 'total-item-by-location' %}",
+       error: function() {
+          console.log('error !!!');
+       },
+       success: function(data) {
+          $.each(data, function(index, value) {
+            label_a[index] = value.name;
+            data_a[index] = value.data;
+
+            renderDoughnutChart(label_a, data_a, "total_location");
+          });
+       },
+       type: 'GET',
+       dataType: 'json'
+    });
+  }
+
+  function renderBarChart(labels, data, placeholder){
+    var ctx = document.getElementById(placeholder).getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: '# of Votes',
+                data: data,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255,99,132,1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true
+                    }
+                }]
+            }
+        }
+    });
+  }
+
+  function renderDoughnutChart(labels, data, placeholder){
+    var ctx = document.getElementById(placeholder).getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: labels,
+            datasets: [{
+                //label: '# of Votes',
+                data: data,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255,99,132,1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        }
+    });
+  }
+
+</script>
+{% endblock %}
