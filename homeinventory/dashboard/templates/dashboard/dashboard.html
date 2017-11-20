@@ -8,10 +8,10 @@
     <hr>
     <div class="row">
       <div class="col-md-6">
-        <div class="card">
+        <div class="card" style="height: 20rem">
           <div class="card-body">
             <h5 class="card-title">Total by Category</h5>
-            <canvas id="total_category" width="400" height="400"></canvas>
+            <canvas id="total_category"></canvas>
           </div>
         </div>
       </div>
@@ -20,7 +20,7 @@
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">Total by Location</h5>
-            <canvas id="total_location" width="400" height="400"></canvas>
+            <canvas id="total_location"></canvas>
           </div>
         </div>
       </div>
@@ -84,7 +84,6 @@
         </div>
       </div>
     </div>
-
 
 {% endblock %}
 
@@ -208,6 +207,17 @@
                 ],
                 borderWidth: 1
             }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRation: false,
+            legend: {
+                display: true,
+                position: 'right',
+                labels: {
+                    fontColor: 'rgb(255, 99, 132)'
+                }
+            }
         }
     });
   }
