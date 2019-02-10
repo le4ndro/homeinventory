@@ -1,0 +1,4 @@
+# Heroku dependencies
+
+-r base.txt
+gunicorn=19.9.0
