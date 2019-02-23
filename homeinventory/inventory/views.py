@@ -185,7 +185,7 @@ class ItemUpdate(LoginRequiredMixin, UpdateView):
 
 class ItemDelete(LoginRequiredMixin, GenericActionConfirmationMixin,
                  DeleteView):
-    model = Category
+    model = Item
     success_url = reverse_lazy('item-list')
     success_msg = "Item deleted!"
 
