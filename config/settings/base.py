@@ -216,8 +216,11 @@ LOGGING = {
 }
 
 
-LOGIN_REDIRECT_URL = reverse_lazy('home')
+LOGIN_REDIRECT_URL = reverse_lazy('dashboard')
 LOGIN_URL = '/auth/login/'
+
+LOGOUT_REDIRECT_URL = reverse_lazy('home')
+
 
 MEDIA_URL = '/media/'
 
