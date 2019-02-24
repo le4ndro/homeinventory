@@ -9,7 +9,9 @@ Local settings for homeinventory project.
 - Add django-extensions as app
 """
 
+from .base import env, TEMPLATES, MIDDLEWARE, INSTALLED_APPS  # noqa
 from .base import *  # noqa
+
 
 # DEBUG
 # ------------------------------------------------------------------------------

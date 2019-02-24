@@ -3,6 +3,7 @@ Production settings for homeinventory project.
 
 """
 
+from .base import env
 from .base import *  # noqa
 
 # DEBUG
