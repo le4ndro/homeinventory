@@ -124,11 +124,6 @@ DATABASES = {
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME':
-        'django.contrib.auth.password_validation. \
-            UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME':
         'django.contrib.auth.password_validation.MinimumLengthValidator',
     },
     {
@@ -246,3 +241,6 @@ THUMBNAIL_ALIASES = {
         'thumb100': {'size': (100, 100), 'crop': True},
     },
 }
+
+#UPGRADE DJANGO 3.2
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'

@@ -12,20 +12,20 @@ logger = logging.getLogger(__name__)
 
 
 def register(request):
+    logger.info('Entering register view')
     if request.method == 'POST':
+        logger.info('is a post!')
         user_form = UserRegistrationForm(request.POST)
         if user_form.is_valid():
+            logger.info('the form is valid!')
             new_user = user_form.save(commit=False)
             new_user.set_password(user_form.cleaned_data['password'])
             new_user.save()
-            logger.info('New user created. Username: {0}, Email: {1}'
-                        .format(new_user.username, new_user.email))
-            return render(request, 'accounts/register_done.html',
-                          {'new_user': new_user})
+            logger.info('New user created. Username: {0}, Email: {1}'.format(new_user.username, new_user.email))
+            return render(request, 'accounts/register_done.html', {'new_user': new_user})
     else:
         user_form = UserRegistrationForm()
-        return render(request, 'accounts/register.html',
-                      {'user_form': user_form})
+        return render(request, 'accounts/register.html', {'user_form': user_form})
 
 
 @login_required
