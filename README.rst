@@ -6,8 +6,8 @@ Home Inventory is a web application for keep track of your stuff.
 Features
 ---------
 
-* For Django 1.11
-* Works with Python 3.6
+* For Django 3.2
+* Works with Python 3
 * Twitter Bootstrap_ v4.0.0  - beta
 * 12-Factor_ based settings via django-environ_
 * Optimized development and production settings
